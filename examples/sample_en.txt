@@ -1,0 +1,11 @@
+Welcome to Straker Verify Demo
+
+This is a sample English text file for testing the translation quality evaluation features.
+
+Key Features:
+- AI-powered quality assessment
+- Segment-level analysis
+- Human verification workflow
+- Real-time progress tracking
+
+Straker Verify helps you ensure translation quality across multiple languages with confidence.
