@@ -208,6 +208,12 @@ class DashboardScreen(Screen):
                 base_url=self.settings.straker_verify_base_url,
             )
             
+            # Show notification about API mode
+            if self.client.use_real_api:
+                self.app.notify("✓ Connected to Straker Verify API", severity="information", timeout=3)
+            else:
+                self.app.notify("ℹ Using demo mode with mock data", severity="warning", timeout=3)
+            
             # Load stats and projects
             self.stats = await self.client.get_stats()
             self.projects = await self.client.list_projects()
@@ -217,6 +223,7 @@ class DashboardScreen(Screen):
             
         except Exception as e:
             self.error_message = str(e)
+            self.app.notify(f"Error: {str(e)}", severity="error")
         finally:
             self.is_loading = False
             # Refresh the screen to show new data
@@ -244,3 +251,8 @@ class DashboardScreen(Screen):
         """
         if error_message:
             self.call_later(self.recompose)
+    
+    async def on_unmount(self) -> None:
+        """Handle screen unmount event - cleanup resources."""
+        if self.client:
+            await self.client.close()
